@@ -1,25 +1,50 @@
-import logo from './logo.svg';
+import React, {Component} from 'react';
 import './App.css';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+///STATE AND COMPONENT
+//to use classes need to inherit from Component
+//A React Component serve the same purpose as a JS function, work in isolation and return HTML via the render function
+//Components come in two types: Class Components and Function components
+//The STATE object is where you store property values that belong to the component
+
+class App extends Component {
+  //component gives a property setProperty
+  //constructor gives us access to this.state and Componenet class
+  constructor() {
+    super();
+
+    //use a state object with this.state.propertyName
+    //setState takes an object with all the properties you want to change
+
+    //monsters rolodox
+    //array of monster objects
+    //need an ID so we can have a key, so we can understand which element the HTML is associated with, do not have to re-render everything
+    //real world scenario won't be hardcoding these examples
+
+    //now we want our monsters state to be empty initially and we will update after the fetch call
+    this.state = {
+      monsters: []
+    };
+  }
+
+  //lifecycle method through our class Component
+  componentDidMount(){
+    fetch('https://jsonplaceholder.typicode.com/users')
+      .then(response => response.json())
+      .then(users => this.setState({monsters: users}))
+  }
+
+  
+  render() {
+    return (
+      <div className="App">
+        {
+          this.state.monsters.map(monster => 
+          <h1 key = {monster.id}>{monster.name}</h1>)
+        }
     </div>
-  );
+    );
+  }
 }
 
 export default App;
