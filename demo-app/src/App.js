@@ -25,7 +25,11 @@ class App extends Component {
 
     //now we want our monsters state to be empty initially and we will update after the fetch call
     this.state = {
-      monsters: []
+      monsters: [],
+
+      //want to store the string we search in the search box to filter out our monsters
+      searchField: ''
+
     };
   }
 
@@ -36,11 +40,15 @@ class App extends Component {
       .then(users => this.setState({monsters: users}))
   }
 
+
+  //note setState is an asynchronous function
+  //second argument of setState is a callback function to log/see the search results after setState has been executed
   
   render() {
     return (
       <div className="App">
-      <CardList monsters={this.state.monsters}></CardList>
+        <input type='search' placeholder='search monsters' onChange = {e => this.setState({searchField: e.target.value}, () => console.log(this.state))}/>
+        <CardList monsters={this.state.monsters}></CardList>
     </div>
     );
   }
