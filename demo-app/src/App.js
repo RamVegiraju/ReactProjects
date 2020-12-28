@@ -1,8 +1,9 @@
 import React, {Component} from 'react';
 //importing card component/function
-import { CardList } from './components/card-list/card-list.component'
+import { CardList } from './components/card-list/card-list.component';
 import './App.css';
-
+import {SearchBox} from './components/search-box/search-box.component';
+ 
 ///STATE AND COMPONENT
 //to use classes need to inherit from Component
 //A React Component serve the same purpose as a JS function, work in isolation and return HTML via the render function
@@ -26,11 +27,13 @@ class App extends Component {
     //now we want our monsters state to be empty initially and we will update after the fetch call
     this.state = {
       monsters: [],
-
       //want to store the string we search in the search box to filter out our monsters
       searchField: ''
-
     };
+
+    //bind is a method on any function that returns a new function where context of this is set to whatever we pass
+    //if we do not use arrow functions
+    //this.handleChange = this.handleChange.bind(this)
   }
 
   //lifecycle method through our class Component
@@ -41,14 +44,43 @@ class App extends Component {
   }
 
 
+  //handlaChange method
+  //arrow Functions automatically set context for this
+  //lexical scoping
+  //can write class methods with arrow function syntax instead of the binding code
+  handleChange = (e) => {
+    this.setState({searchField: e.target.value})
+  }
+
+
   //note setState is an asynchronous function
   //second argument of setState is a callback function to log/see the search results after setState has been executed
   
   render() {
+    //filtering monsters array based off of search page
+    //need to destructure array
+    //creates two variables of monsters and search field
+    //same as
+    //const monsters = this.state.monsters
+    //const searchField = this.state.searchField
+    const {monsters, searchField } = this.state;
+    const filteredMonsters = monsters.filter(monster => 
+      monster.name.toLowerCase().includes(searchField.toLowerCase())
+    );
+
     return (
       <div className="App">
-        <input type='search' placeholder='search monsters' onChange = {e => this.setState({searchField: e.target.value}, () => console.log(this.state))}/>
-        <CardList monsters={this.state.monsters}></CardList>
+        <h1>Monsters Rolodex</h1>
+        
+        <SearchBox
+          placeholder = 'search monsters'
+          handleChange = {this.handleChange}
+        />
+
+        <CardList 
+          monsters={filteredMonsters}>
+        </CardList>
+
     </div>
     );
   }
