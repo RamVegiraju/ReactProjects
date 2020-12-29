@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <!--In our index.js file we replace the root div with the contents of our app.js file-->
+    <div id = "root">React not Rendered</div>
+
+    <!--REACT-->
+    <script src = "https://unpkg.com/react@16.8.6/umd/react.development.js"></script>
+
+    <!--REACT DOM
+    REACT NATIVE uses a different engine than REACT DOM even though it is built off of the same REACT-->
+    <script src = "https://unpkg.com/react-dom@16.8.6/umd/react-dom.development.js"></script>
+
+    <script>
+
+        
+        const Person = (props) => {
+            return React.createElement("div", {}, [
+                React.createElement("h1", {}, props.name),
+                React.createElement("p", {}, props.occupation)
+            ])
+        }
+        
+        
+        const App = () => {
+            return React.createElement("div", {}, 
+                [React.createElement("h1", {}, "REACT is rendered"),
+                React.createElement(Person, {name: 'Ram', occupation: 'developer'}),
+                React.createElement(Person, {name: 'Ram', occupation: 'data scientist'}),
+                React.createElement(Person, {name: 'Ram', occupation: 'developer'})]
+            );
+        }; 
+
+
+        //can also make it as a class component rather than a functional component
+        class App extends React.Component {
+            render() {
+                return React.createElement("div", {}, 
+                [React.createElement("h1", {}, "REACT is rendered"),
+                React.createElement(Person, {name: 'Ram', occupation: 'developer'}),
+                React.createElement(Person, {name: 'Ram', occupation: 'data scientist'}),
+                React.createElement(Person, {name: 'Ram', occupation: 'developer'})]
+            );
+            }
+        }
+
+        ReactDOM.render(
+            React.createElement(App), 
+            document.getElementById("root")
+        );
+
+
+        //can do it in class format as well
+        //class App extends React.Component 
+    </script>
+</body>
+</html>
